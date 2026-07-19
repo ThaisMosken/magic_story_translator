@@ -29,7 +29,7 @@ def build_pipeline(gemini_client, notion_client, database_id, model_name, vocabu
             return
 
         print(f"📖 Título original: {story['title']}")
-        print(f"✍️  Autor: {story['author']}")
+        print(f"✍️ Autor: {story['author']}")
         print(f"📅 Data: {story['date']}")
         print(f"📝 Tamanho do texto extraído: {len(story['text'])} caracteres")
 
