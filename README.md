@@ -1,6 +1,6 @@
 # Magic Story Translator
 
-Script para Google Colab que extrai contos e matérias do site [Magic Story](https://magic.wizards.com/en/news/magic-story), traduz para Português Brasileiro usando a API do Gemini com glossário de termos de Magic: The Gathering e publica o resultado, já formatado, como um novo registro em uma database do Notion.
+Script para Google Colab que extrai contos e matérias do site [Magic Story](https://magic.wizards.com/en/news/magic-story), traduz para Português Brasileiro usando a API do Gemini (com glossário oficial de termos de Magic: The Gathering) e publica o resultado, já formatado, como um novo registro em uma database do Notion.
 
 ## Visão geral do fluxo
 
@@ -11,8 +11,26 @@ Script para Google Colab que extrai contos e matérias do site [Magic Story](htt
 
 O notebook é dividido em dois blocos de código, pensados para o seguinte fluxo de trabalho:
 
-- **BLOCO 1** — configuração geral (instalação de dependências, leitura dos secrets, criação dos clientes de API, carregamento do glossário e definição de todas as funções). Roda **uma vez por sessão** do Colab.
+- **BLOCO 1** — instalação de dependências, leitura dos secrets, criação dos clientes de API, clonagem/atualização do repositório e importação dos módulos em `src/` (que trazem o glossário e montam o `translate_and_publish` já configurado). Roda **uma vez por sessão** do Colab.
 - **BLOCO 2** — variáveis do conto a ser traduzido no momento, seguidas da chamada que executa o processo inteiro. Roda **uma vez para cada conto**, podendo ser editado e reexecutado quantas vezes for preciso, sem precisar rodar o BLOCO 1 de novo.
+
+## Estrutura do repositório
+
+```
+magic_story_translator/
+├── README.md
+├── glossary_mtg.md              # glossário de termos MTG (ver seção abaixo)
+├── magic_story_translator.ipynb # notebook do Colab (BLOCO 1 + BLOCO 2)
+└── src/
+    ├── story_extractor.py       # extract_story() — extração da página do Magic Story
+    ├── translation_prompts.py   # build_translation_prompt(), build_title_prompt()
+    ├── notion_formatter.py      # parse_inline_markdown(), markdown_to_notion_blocks() etc.
+    ├── notion_publisher.py      # publish_story() — criação do registro no Notion
+    ├── glossary_manager.py      # load_glossary() — leitura do glossary_mtg.md
+    └── pipeline.py              # build_pipeline() — monta o translate_and_publish()
+```
+
+A lógica reutilizável (extração, prompts, parsing de Markdown, publicação) vive nos módulos em `src/`, versionados e testáveis independentemente do Colab. O notebook fica responsável só pelo que é específico da sessão: secrets, clientes de API e as variáveis de cada conto.
 
 ## Pré-requisitos
 
@@ -103,7 +121,8 @@ translate_and_publish(STORY_URL, ARC_NAME, TAGS, dry_run=True)
 
 ## Histórico de versões
 
-- **v1** — primeira versão funcional, com blocos separados por etapa (extração, tradução, publicação).
-- **v2** — reestruturação em 2 blocos: setup (uma vez por sessão) + variáveis e execução (por conto).
-- **v3** — glossário de MTG migrado do código para um arquivo `.md` versionado no GitHub.
-- **v4** — ajustes finais de estabilização.
+- **v0_1** — primeira versão funcional, com blocos separados por etapa (extração, tradução, publicação).
+- **v0_2** — reestruturação em 2 blocos: setup (uma vez por sessão) + variáveis e execução (por conto).
+- **v0_3** — glossário de MTG migrado do código para um arquivo `.md` versionado no GitHub.
+- **v0_4** — ajustes finais de estabilização.
+- **v0_5** — código movido do notebook para módulos em `src/`, deixando o BLOCO 1 enxuto (só o que é específico do Colab: secrets, clientes, clonagem do repo e import dos módulos).
