@@ -20,6 +20,7 @@ Siga rigorosamente estas diretrizes:
 {vocab_lines}
 
 3. PRESERVAÇÃO DE FORMATAÇÃO MARKDOWN:
+- ATENÇÃO — REGRA MAIS IMPORTANTE DESTA SEÇÃO: preserve EXATAMENTE a mesma quantidade e a mesma posição das quebras de parágrafo do texto original. Cada parágrafo do original (bloco de texto separado por uma linha em branco) deve virar exatamente um parágrafo na tradução, também separado por uma linha em branco. Isso vale mesmo para parágrafos curtos, como uma única frase de dialogo, um pensamento isolado em itálico, ou uma linha de narração — NUNCA junte dois ou mais parágrafos do original em um único bloco contínuo de texto. Se o original tem 12 parágrafos separados, a tradução precisa ter os mesmos 12 parágrafos separados, na mesma ordem.
 - Use cabeçalhos correspondentes à hierarquia original (#, ##, ###).
 - Preserve rigorosamente negritos (**texto**) e itálicos (*texto*) nos mesmos locais do original.
 - Mantenha listas com marcadores (- ou *) e listas numeradas exatamente onde aparecem.
