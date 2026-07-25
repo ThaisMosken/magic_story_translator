@@ -25,7 +25,7 @@ ignorados pelo script — servem só de organização visual para humanos.
 - Broods → Ninhadas
 - Clans → Clãs
 - Guilds → Guildas
-- Omenpath → Caminho dos Presságios
+- Omenpath → Trilha dos Presságios
 - Phyrexian → Phyrexiano
 - Shards → Fragmentos
 - The Brothers' War → A Guerra dos Irmãos
