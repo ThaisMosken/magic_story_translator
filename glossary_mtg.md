@@ -26,6 +26,7 @@ ignorados pelo script — servem só de organização visual para humanos.
 - Clans → Clãs
 - Guilds → Guildas
 - Omenpath → Trilha dos Presságios
+- Omenseeker → Pressageiro
 - Phyrexian → Phyrexiano
 - Shards → Fragmentos
 - The Brothers' War → A Guerra dos Irmãos
@@ -90,6 +91,9 @@ ignorados pelo script — servem só de organização visual para humanos.
 - Theros → Theros
 - Zendikar → Zendikar
 
+## Nomes e Títulos
+- Rune-Eyes → Olhos Rúnicos
+
 ## Guildas de Ravnica
 - Azorius → Azorius
 - Boros → Boros
@@ -115,3 +119,6 @@ ignorados pelo script — servem só de organização visual para humanos.
 - Green → Verde
 - Red → Vermelho
 - White → Branco
+
+## Outras traduções baseadas nas cartas em PT-BR
+- Longhall → Alto salão
