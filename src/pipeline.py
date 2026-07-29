@@ -1,11 +1,6 @@
 """Orquestrador do processo completo: extração, tradução e publicação."""
 from src.story_extractor import extract_story
-from src.translation_prompts import (
-    build_translation_prompt,
-    build_title_prompt,
-    protect_ellipses,
-    restore_ellipses,
-)
+from src.translation_prompts import build_translation_prompt, build_title_prompt
 from src.notion_publisher import publish_story
 
 
@@ -53,18 +48,18 @@ def build_pipeline(gemini_client, notion_client, database_id, model_name, vocabu
             print("🌐 Traduzindo corpo do texto...")
             response = gemini_client.models.generate_content(
                 model=model_name,
-                contents=build_translation_prompt(protect_ellipses(story["text"]), vocabulary),
+                contents=build_translation_prompt(story["text"], vocabulary),
             )
-            translated_text = restore_ellipses(response.text)
+            translated_text = response.text
 
             translated_title = None
             if story.get("title"):
                 print("🌐 Traduzindo título...")
                 title_response = gemini_client.models.generate_content(
                     model=model_name,
-                    contents=build_title_prompt(protect_ellipses(story["title"]), vocabulary),
+                    contents=build_title_prompt(story["title"], vocabulary),
                 )
-                translated_title = restore_ellipses(title_response.text.strip().strip('"').strip())
+                translated_title = title_response.text.strip().strip('"').strip()
                 print(f"📖 Título traduzido: {translated_title}")
 
         try:

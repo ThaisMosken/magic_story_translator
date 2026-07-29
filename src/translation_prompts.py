@@ -1,25 +1,4 @@
 """Prompts usados nas chamadas de tradução à API do Gemini."""
-import re
-
-# Reticências espaçadas (". . .", ".  .  .") ou comuns ("...") no meio de um
-# parágrafo às vezes fazem modelos de linguagem interpretarem o trecho como
-# uma citação com conteúdo omitido, e descartarem parte do texto. Para
-# evitar depender do modelo "se comportar bem" com esse padrão, protegemos
-# essas ocorrências com um marcador neutro antes de enviar o texto, e
-# restauramos depois de receber a tradução.
-ELLIPSIS_PATTERN = re.compile(r'\.\s?\.\s?\.')
-ELLIPSIS_PLACEHOLDER = "ZZRETICENCIASZZ"
-
-
-def protect_ellipses(text: str) -> str:
-    """Substitui reticências (". . .", "...") por um marcador neutro,
-    para evitar que o modelo interprete o trecho como citação truncada."""
-    return ELLIPSIS_PATTERN.sub(ELLIPSIS_PLACEHOLDER, text)
-
-
-def restore_ellipses(text: str) -> str:
-    """Desfaz protect_ellipses, devolvendo reticências normais (…)."""
-    return text.replace(ELLIPSIS_PLACEHOLDER, "…")
 
 
 def build_translation_prompt(text: str, vocabulary: dict) -> str:
@@ -34,7 +13,6 @@ Siga rigorosamente estas diretrizes:
 - Traduza o texto completo de ponta a ponta.
 - Nunca resuma, omita parágrafos, pule seções ou condense informações.
 - Mantenha termos técnicos ou nomes próprios consagrados em inglês quando fizer sentido no contexto, preferencialmente em itálico.
-- O texto pode conter o marcador ZZRETICENCIASZZ. Ele representa reticências estilísticas do texto original (uma pausa dramática, fala interrompida etc.) e NÃO indica conteúdo omitido ou uma citação cortada. Traduza normalmente todo o texto ao redor do marcador — nunca pule, resuma ou descarte um parágrafo só porque ele contém esse marcador. Mantenha o marcador exatamente como está (sem traduzi-lo, sem removê-lo, sem alterar sua grafia).
 
 2. DIRETRIZES DE MAGIC: THE GATHERING (MTG):
 - A tradução deve obrigatoriamente seguir os termos oficiais do jogo utilizados nas cartas em português do Brasil (PT-BR): nomes de personagens (Planeswalkers, criaturas lendárias), locais (planos, continentes, faculdades, marcos geográficos), feitiços, raças e entidades.
