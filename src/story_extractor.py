@@ -1,6 +1,21 @@
 """Extração de contos do site Magic Story (magic.wizards.com)."""
+import re
 from datetime import datetime
 import trafilatura
+
+# O CMS do site usa uma tag HTML não-padrão, <nbsp>...</nbsp> (o correto
+# seria a entidade &nbsp;, não uma tag), geralmente envolvendo reticências
+# espaçadas (". . ."). Como não é uma tag HTML reconhecida, o parser do
+# trafilatura descarta todo o conteúdo dentro dela — e, por consequência,
+# o restante do parágrafo. Removemos essa tag (mantendo o texto interno)
+# antes de passar o HTML para o trafilatura.
+NBSP_TAG_RE = re.compile(r'<\s*nbsp\s*>(.*?)<\s*/\s*nbsp\s*>', re.IGNORECASE | re.DOTALL)
+
+
+def _sanitize_html(html: str) -> str:
+    """Remove tags <nbsp>...</nbsp> não-padrão do CMS da Wizards, mantendo
+    o texto interno intacto."""
+    return NBSP_TAG_RE.sub(r'\1', html)
 
 
 def extract_story(url: str) -> dict:
@@ -16,6 +31,8 @@ def extract_story(url: str) -> dict:
     downloaded = trafilatura.fetch_url(url)
     if downloaded is None:
         raise RuntimeError(f"Não foi possível baixar a página: {url}")
+
+    downloaded = _sanitize_html(downloaded)
 
     text = trafilatura.extract(
         downloaded,
